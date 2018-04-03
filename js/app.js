@@ -1,17 +1,66 @@
 'use strict';
 
-// Element selectors
-const start = document.getElementById('start');
-const button = document.querySelector('.button');
-const board = document.getElementById('board');
-const finish = document.getElementById('finish');
+// Tic Tac Toe Module
+//(function ticTacToe() {
 
-// Turn off board and finish screens before starting the game
-board.style.display = 'none';
-finish.style.display = 'none';
+	// Element selectors
+	const start = document.getElementById('start');
+	const button = document.querySelector('.button');
+	const board = document.getElementById('board');
+	const player1 = document.getElementById('player1');
+	const player2 = document.getElementById('player2');
+	const boxes = document.querySelector('.boxes');
+	const finish = document.getElementById('finish');
 
-// Click to start the game and turn on the board
-button.onclick = () => {
-	start.style.display = 'none';
-	board.style.display = 'block';
-};
+	// Turn off board and finish screens before starting the game
+	board.style.display = 'none';
+	finish.style.display = 'none';
+	let player = 1;
+
+	// Click to start the game and turn on the board
+	button.onclick = () => {
+		start.style.display = 'none';
+		board.style.display = 'block';
+		player1.className = 'players active';
+	};
+	
+	// Give each box a unique identifier
+	for(let index = 0; index < boxes.children.length; index++) {
+		let li = boxes.children[index];
+		li.id = index;
+	}
+
+	// Show X or O when hovering over an empty box
+	boxes.addEventListener('mouseover', (event) => {
+		let selectedElement = event.target;
+		if (player === 1) {
+			selectedElement.style.backgroundImage = 'url(../img/o.svg)';
+		} else if (player === 2) {
+			selectedElement.style.backgroundImage = 'url(../img/x.svg)';
+		}
+	});
+
+
+	// Remove X or O when hovering over an empty box
+	boxes.addEventListener('mouseout', (event) => {
+		event.target.style.backgroundImage = "";
+	});
+
+	// Mark an empty box with an X or O when clicking on it
+	boxes.addEventListener('click', (event) => {
+		let clickedElement = event.target;
+		if (player === 1) {
+			clickedElement.className = 'box box-filled-1';
+			player1.className = 'players';
+			player2.className = 'players active';
+			player = 2;
+		} else if (player === 2) {
+			clickedElement.className = 'box box-filled-2';
+			player1.className = 'players active';
+			player2.className = 'players';
+			player = 1;
+		}
+	});
+
+// End Tic Tac Toe Module
+//}());
