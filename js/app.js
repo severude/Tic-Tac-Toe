@@ -22,7 +22,6 @@
 	finish.style.display = 'none';
 	let player = 1; // Player 1 starts game with "O"
 	let boxList = []; // Array for box objects
-	let winningPlayer = 0; // Zero means a tie game
 	let playerName = "";
 
 	// Set name field validation
@@ -53,6 +52,7 @@
 		player1.className = 'players';
 		player2.className = 'players active';
 		player = 2;
+		computerMove();
 	}
 	
 	// Reset everything to start the game
@@ -73,11 +73,35 @@
 				   new Box(4), new Box(5), new Box(6),
 				   new Box(7), new Box(8), new Box(9)];
 		
-		// Get and show name
+		// Get and show name of player
 		playerName = name.value;
 		showName.textContent = playerName;
 	}
 
+	// Logic to determine how the computer will take it's turn
+	function computerMove() {
+		// Hierarchy order of center, edges and then the rest
+		if(boxList[4].mark === "") {
+			boxes.children[4].click();
+		} else if(boxList[0].mark === "") {
+			boxes.children[0].click();
+		} else if(boxList[2].mark === "") {
+			boxes.children[2].click();
+		} else if(boxList[6].mark === "") {
+			boxes.children[6].click();
+		} else if(boxList[8].mark === "") {
+			boxes.children[8].click();
+		} else if(boxList[3].mark === "") {
+			boxes.children[3].click();
+		} else if(boxList[7].mark === "") {
+			boxes.children[7].click();
+		} else if(boxList[5].mark === "") {
+			boxes.children[5].click();
+		} else if(boxList[1].mark === "") {
+			boxes.children[1].click();
+		}
+	}
+	
 	// The game is over if there are three boxes in a row or all squares are full
 	function gameIsOver() {
 		let gameWon = 0;
@@ -104,14 +128,10 @@
 		
 		// If squares are completed and no one has won, then the game is a tie
 		if(squaresCompleted && !gameWon) {
-			winningPlayer = 0;
+			player = 0;
 		}
 		
-		// If the game has been won, then determine who won. The last player to play is the winner.
-		if(gameWon) {
-			winningPlayer = (player === 1) ? 2 : 1;
-		}
-		
+		// Return true if the game has been won or all the squares are full
 		return gameWon || squaresCompleted;
 	}
 	
@@ -119,18 +139,18 @@
 	function showResults() {
 		board.style.display = 'none';
 		finish.style.display = 'block';
-		if (winningPlayer === 0) {
+		if (player === 0) {
 			finish.className = 'screen screen-win screen-win-tie';
 			message.textContent = "It's a Tie!";
-			congrats.textContent = "";
-		} else if (winningPlayer === 1) {
+			congrats.textContent = "Try again";
+		} else if (player === 1) {
 			finish.className = 'screen screen-win screen-win-one';
 			message.textContent = "Winner";
-			congrats.textContent = "Congratulations " + playerName + "!";
-		} else if (winningPlayer === 2) {
+			congrats.textContent = playerName + " wins";
+		} else if (player === 2) {
 			finish.className = 'screen screen-win screen-win-two';
 			message.textContent = "Winner";
-			congrats.textContent = "";
+			congrats.textContent = "Computer wins";
 		}
 	}
 	
@@ -173,16 +193,18 @@
 			if (player === 1) {
 				boxList[event.target.id].mark = "O";
 				event.target.className = 'box box-filled-1';
-				setupPlayerTwo();
 			} else if (player === 2) {
 				boxList[event.target.id].mark = "X";
 				event.target.className = 'box box-filled-2';
-				setupPlayerOne();
 			}
-			// If the game has ended, then show the results
+			// If the game has ended, then show the results, otherwise keep playing
 			if(gameIsOver()) {
 				showResults();
-			};
+			} else if (player === 1) {
+				setupPlayerTwo();
+			} else if (player === 2) {
+				setupPlayerOne();
+			}
 		}
 	});
 
