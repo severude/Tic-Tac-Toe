@@ -172,9 +172,9 @@
 		if(boxList[event.target.id].mark === "") {
 			// Show which player can check the box
 			if (player === 1) {
-				event.target.style.backgroundImage = 'url(../img/o.svg)';
+				event.target.style.backgroundImage = 'url(img/o.svg)';
 			} else if (player === 2) {
-				event.target.style.backgroundImage = 'url(../img/x.svg)';
+				event.target.style.backgroundImage = 'url(img/x.svg)';
 			}
 		}
 	});
