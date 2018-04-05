@@ -15,6 +15,26 @@ h1 {
   text-align: left;
   width: 1.875em; }
 
+.name {
+	margin: 5em auto 3em;
+	color: #fff; }
+	.name input {
+		color: #000;
+		display: block;
+		margin: .5em auto 0;
+		border-radius: 5px;
+    	border: 1px solid #eaeaea;
+    	padding: 8px 15px;
+    	font-size: 14px;	}
+
+.showName {
+	font-size: 1.75em;
+	font-weight: bold; }
+.congratulations {
+	margin-bottom: 1em;
+	font-size: 14px; 
+	font-weight: bold; }
+
 .button {
   background: #fff;
   border-radius: 4px;
@@ -48,7 +68,7 @@ h1 {
       font-size: 6em; }
     .screen-start .button {
       color: #54D17A; }
-    .screen-start h1 + .button {
+	.screen-start h1 + .button {
       margin-top: 5em; }
   .screen-win p {
     font-size: 6em;

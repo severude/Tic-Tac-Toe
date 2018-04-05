@@ -12,6 +12,10 @@
 	const boxes = document.querySelector('.boxes');
 	const finish = document.getElementById('finish');
 	const message = document.querySelector('.message');
+	const name = document.getElementById('name');
+	const nameLabel = name.previousElementSibling;
+	const showName = document.querySelector('.showName');
+	const congrats = document.querySelector('.congratulations');
 
 	// Turn off board and finish screens
 	board.style.display = 'none';
@@ -19,6 +23,12 @@
 	let player = 1; // Player 1 starts game with "O"
 	let boxList = []; // Array for box objects
 	let winningPlayer = 0; // Zero means a tie game
+	let playerName = "";
+
+	// Set name field validation
+	name.focus();
+	name.required = true;
+	name.pattern = "[A-Za-z ]+";
 
 	// Give each box element a unique integer id
 	for(let index = 0; index < boxes.children.length; index++) {
@@ -62,6 +72,10 @@
 		boxList = [new Box(1), new Box(2), new Box(3),
 				   new Box(4), new Box(5), new Box(6),
 				   new Box(7), new Box(8), new Box(9)];
+		
+		// Get and show name
+		playerName = name.value;
+		showName.textContent = playerName;
 	}
 
 	// The game is over if there are three boxes in a row or all squares are full
@@ -108,17 +122,28 @@
 		if (winningPlayer === 0) {
 			finish.className = 'screen screen-win screen-win-tie';
 			message.textContent = "It's a Tie!";
+			congrats.textContent = "";
 		} else if (winningPlayer === 1) {
 			finish.className = 'screen screen-win screen-win-one';
 			message.textContent = "Winner";
+			congrats.textContent = "Congratulations " + playerName + "!";
 		} else if (winningPlayer === 2) {
 			finish.className = 'screen screen-win screen-win-two';
 			message.textContent = "Winner";
+			congrats.textContent = "";
 		}
 	}
 	
 	// Buttons to start the game
-	buttons[0].addEventListener('click', startGame);
+	buttons[0].addEventListener('click', (event) => {
+		// Check if valid name was entered
+		if(!name.validity.valid) {
+			event.preventDefault();
+			nameLabel.style.color = "#C21E1E"
+		} else {
+			startGame();
+		}
+	});
 	buttons[1].addEventListener('click', startGame);
 	
 	// Show X or O when hovering over an empty box
