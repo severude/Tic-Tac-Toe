@@ -80,8 +80,17 @@
 
 	// Logic to determine how the computer will take it's turn
 	function computerMove() {
+		// Center edge pieces are tested if they are surrounded to block easy wins
+		if(boxList[0].mark === 'O' && boxList[1].mark === '' && boxList[2].mark === 'O') {
+			boxes.children[1].click();
+		} else if(boxList[0].mark === 'O' && boxList[3].mark === '' && boxList[6].mark === 'O') {
+			boxes.children[3].click();
+		} else if(boxList[6].mark === 'O' && boxList[7].mark === '' && boxList[8].mark === 'O') {
+			boxes.children[7].click();
+		} else if(boxList[2].mark === 'O' && boxList[5].mark === '' && boxList[8].mark === 'O') {
+			boxes.children[5].click();
 		// Hierarchy order of center, edges and then the rest
-		if(boxList[4].mark === "") {
+		} else if(boxList[4].mark === "") {
 			boxes.children[4].click();
 		} else if(boxList[0].mark === "") {
 			boxes.children[0].click();
